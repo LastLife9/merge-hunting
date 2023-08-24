@@ -9,8 +9,34 @@ public class SaveManager : MonoBehaviour
 
     private void Awake()
     {
-        saveFile = Application.dataPath + "/gamedata.json";
-        ReadFile();
+        saveFile = Application.persistentDataPath + "/gamedata.json";
+        CheckAndLoadData();
+    }
+
+    private void CheckAndLoadData()
+    {
+        if (File.Exists(saveFile))
+        {
+            ReadFile();
+            _fileExist = true;
+        }
+        else
+        {
+            _fileExist = false;
+            CreateNewSaveData();
+        }
+    }
+
+    private void CreateNewSaveData()
+    {
+        gameData = new GameData
+        {
+            lvl = 0,
+            coins = 300,
+            hunters = new int[0]
+        };
+
+        WriteFile();
     }
 
     public void ReadFile()
@@ -34,11 +60,13 @@ public class SaveManager : MonoBehaviour
     }
 
     public GameData GetData() => gameData;
+
     public void SetGameData(GameData newData)
     {
         gameData = newData;
         WriteFile();
     }
+
     public void ClearData() => File.Delete(saveFile);
 }
 

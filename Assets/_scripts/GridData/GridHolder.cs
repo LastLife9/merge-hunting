@@ -63,7 +63,7 @@ public class GridHolder : MonoBehaviour
     {
         AnimalManager animalManager = FindObjectOfType<AnimalManager>();
         GameData gameData = _saveManager.GetData();
-        if (gameData.hunters == null) return;
+        if (gameData.hunters.Length == 0) return;
         int[] huntersToLoad = gameData.hunters;
         int[,] arrayToLoad = new int[_width, _height];
         int index = 0;
